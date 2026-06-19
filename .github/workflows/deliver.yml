@@ -1,0 +1,43 @@
+name: Threads delivery
+
+# 30分毎(:15 と :45)に実行。GitHub Actionsはクラウド実行＝Mac非依存・24時間。
+# 時刻ゲートなし＝予定時刻(JST)を過ぎた未投稿を毎回キャッチアップ配信。
+on:
+  schedule:
+    - cron: '15,45 * * * *'
+  workflow_dispatch: {}   # 手動実行(テスト用)
+
+permissions:
+  contents: write          # 状態ファイルをコミットし直すため
+
+concurrency:
+  group: threads-delivery  # 同時実行を防止(二重投稿対策)
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run delivery
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: node deliver.mjs
+
+      - name: Commit updated state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/phase1_state.json data/phase1_delivery_log.csv || true
+          if git diff --staged --quiet; then
+            echo "状態の変化なし（コミット不要）"
+          else
+            git commit -m "update delivery state [skip ci]"
+            git push
+          fi

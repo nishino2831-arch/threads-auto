@@ -1,0 +1,26 @@
+{
+  "ph1-01": {
+    "status": "posted",
+    "media_id": "18104639413833002",
+    "retry_count": 21,
+    "posted_at": "2026-06-19T09:53:21.825Z"
+  },
+  "ph1-02": {
+    "status": "posted",
+    "media_id": "18105870260055681",
+    "retry_count": 13,
+    "posted_at": "2026-06-19T09:53:27.566Z"
+  },
+  "ph1-03": {
+    "status": "posted",
+    "media_id": "17858386029659126",
+    "retry_count": 0,
+    "posted_at": "2026-06-19T10:10:47.472Z"
+  },
+  "ph1-04": {
+    "status": "posted",
+    "media_id": "17907123810430770",
+    "retry_count": 0,
+    "posted_at": "2026-06-19T13:23:38.324Z"
+  }
+}
