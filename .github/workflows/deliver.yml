@@ -4,7 +4,7 @@ name: Threads delivery
 # 時刻ゲートなし＝予定時刻(JST)を過ぎた未投稿を毎回キャッチアップ配信。
 on:
   schedule:
-    - cron: '15,45 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch: {}   # 手動実行(テスト用)
 
 permissions:
